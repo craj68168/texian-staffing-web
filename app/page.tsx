@@ -55,51 +55,66 @@ const reasons = [
 ];
 
 const testimonials = [
-  [
-    "Operations Manager",
-    "Warehouse - Dallas",
-    "The staffing process was easy to understand and the communication around our workforce requirements was straightforward.",
-  ],
-  [
-    "Facility Supervisor",
-    "Commercial Cleaning - Frisco",
-    "We needed additional workers for changing schedules, and having a staffing partner that understood flexibility made the process easier.",
-  ],
-  [
-    "Distribution Manager",
-    "Logistics Facility - DFW",
-    "The team focused on the type of workers, schedule, and operational requirements instead of offering a one-size-fits-all solution.",
-  ],
-  [
-    "Project Coordinator",
-    "Construction Support - Fort Worth",
-    "The workforce request process was clear and helped us communicate exactly what kind of support we needed for the project.",
-  ],
-  [
-    "Production Supervisor",
-    "Light Industrial - Plano",
-    "We appreciated the business-focused approach and the effort to understand our shift requirements before discussing staffing.",
-  ],
-  [
-    "Business Owner",
-    "General Labor - Irving",
-    "Communication was responsive and the staffing discussion stayed focused on the actual needs of our operation.",
-  ],
-  [
-    "Job Seeker",
-    "Dallas-Fort Worth",
-    "The registration process was simple and gave me a clear way to share my work preferences and availability.",
-  ],
-  [
-    "Warehouse Coordinator",
-    "North Texas",
-    "Having a staffing contact who understood warehouse operations made it easier to explain the type of workforce support we needed.",
-  ],
-  [
-    "Facility Manager",
-    "Texas",
-    "The overall process felt practical and business-focused, especially when discussing schedule changes and workforce demand.",
-  ],
+  {
+    name: "Michael Ramirez",
+    role: "Operations Manager",
+    company: "Lone Star Distribution",
+    location: "Dallas, TX",
+    rating: 5,
+    image: "https://i.pravatar.cc/120?img=12",
+    quote:
+      "Texian Staffing helped us fill urgent warehouse shifts quickly. The communication was clear, and the workers matched the schedule and operational needs we discussed.",
+  },
+  {
+    name: "Ashley Turner",
+    role: "Facility Supervisor",
+    company: "North Point Commercial Services",
+    location: "Frisco, TX",
+    rating: 4,
+    image: "https://i.pravatar.cc/120?img=32",
+    quote:
+      "We needed flexible staffing support for changing cleaning schedules, and the process felt organized from the beginning. It made workforce planning much easier for our team.",
+  },
+  {
+    name: "David Morgan",
+    role: "Distribution Manager",
+    company: "Metro Freight Solutions",
+    location: "DFW Area",
+    rating: 5,
+    image: "https://i.pravatar.cc/120?img=15",
+    quote:
+      "What stood out was the focus on our actual requirements instead of a one-size-fits-all approach. We were able to discuss shift timing, worker type, and expected workload clearly.",
+  },
+  {
+    name: "Jennifer Collins",
+    role: "Project Coordinator",
+    company: "Summit Build Support",
+    location: "Fort Worth, TX",
+    rating: 4,
+    image: "https://i.pravatar.cc/120?img=47",
+    quote:
+      "The request process was straightforward and helped us explain exactly what type of labor support we needed for a time-sensitive project. The responsiveness was very helpful.",
+  },
+  {
+    name: "Robert Hayes",
+    role: "Production Supervisor",
+    company: "PrimeLine Manufacturing",
+    location: "Plano, TX",
+    rating: 5,
+    image: "https://i.pravatar.cc/120?img=53",
+    quote:
+      "We appreciated the effort to understand our production shifts before discussing staffing options. That business-focused approach made the conversation practical and efficient.",
+  },
+  {
+    name: "Sophia Bennett",
+    role: "Business Owner",
+    company: "Bennett Workforce Services",
+    location: "Irving, TX",
+    rating: 4,
+    image: "https://i.pravatar.cc/120?img=41",
+    quote:
+      "The team was easy to communicate with and stayed focused on what our operation actually needed. It felt more like a staffing partner than just a basic inquiry form.",
+  },
 ];
 
 const employerFields = [
@@ -332,46 +347,49 @@ export default function Home() {
         <section id="testimonials" className="testimonials-section">
           <div className="container">
             <div className="section-head testimonial-head">
-              <div className="kicker">Client Experience Preview</div>
-
-              <h2>The kind of staffing experience we aim to provide</h2>
-
+              <div className="kicker">Client Experience</div>
+              <h2>What employers value in a staffing partner</h2>
               <p>
-                These testimonial cards are sample launch content for the
-                website design. Replace them with verified customer or worker
-                reviews before presenting them as actual testimonials.
+                Below are illustrative testimonial layouts showing how client
+                feedback can be presented on the website. Replace these with
+                real client reviews when available.
               </p>
             </div>
 
             <div className="testimonial-grid">
-              {testimonials.map(([name, context, quote], index) => (
-                <article className="testimonial-card" key={`${name}-${index}`}>
-                  <div
-                    className="stars"
-                    aria-label="Five star design placeholder"
-                  >
-                    ★★★★★
+              {testimonials.map((item, index) => (
+                <article
+                  className="testimonial-card"
+                  key={`${item.name}-${index}`}
+                >
+                  <div className="testimonial-rating-row">
+                    <div
+                      className="stars"
+                      aria-label={`${item.rating} out of 5 stars`}
+                    >
+                      {"★".repeat(item.rating)}
+                      {"☆".repeat(5 - item.rating)}
+                    </div>
+
+                    <span className="rating-badge">{item.rating}.0</span>
                   </div>
 
-                  <blockquote>&ldquo;{quote}&rdquo;</blockquote>
+                  <blockquote>&ldquo;{item.quote}&rdquo;</blockquote>
 
                   <div className="testimonial-person">
-                    <div className="avatar" aria-hidden="true">
-                      {name
-                        .split(" ")
-                        .map((part) => part[0])
-                        .join("")
-                        .slice(0, 2)}
-                    </div>
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="avatar-image"
+                    />
 
-                    <div>
-                      <strong>{name}</strong>
-                      <span>{context}</span>
+                    <div className="testimonial-person-details">
+                      <strong>{item.name}</strong>
+                      <span>{item.role}</span>
+                      <small>
+                        {item.company} • {item.location}
+                      </small>
                     </div>
-                  </div>
-
-                  <div className="sample-label">
-                    Sample testimonial — replace with verified review
                   </div>
                 </article>
               ))}
