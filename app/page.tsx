@@ -442,8 +442,6 @@ export default function Home() {
 
             <MailtoForm
               title="Employer Staffing Request"
-              recipient="info@himac.us"
-              subject="Texian Staffing - Employer Staffing Request"
               type="employer"
             />
           </div>
@@ -454,8 +452,6 @@ export default function Home() {
           <div className="container form-layout reverse-layout">
             <MailtoForm
               title="Job Seeker Information"
-              recipient="info@himac.us"
-              subject="Texian Staffing - Job Seeker Submission"
               type="jobSeeker"
             />
 

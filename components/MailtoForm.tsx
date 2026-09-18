@@ -3,43 +3,31 @@
 import { FormEvent, useState } from "react";
 
 type FormType = "employer" | "jobSeeker";
+type SubmitStatus = "idle" | "success";
 
 type Props = {
   title: string;
-  recipient: string;
-  subject: string;
   type: FormType;
 };
 
-export default function MailtoForm({ title, recipient, subject, type }: Props) {
+export default function MailtoForm({ title, type }: Props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<SubmitStatus>("idle");
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     setIsSubmitting(true);
+    setStatus("idle");
 
     const form = event.currentTarget;
-    const formData = new FormData(form);
-
-    const lines: string[] = [];
-
-    formData.forEach((value, key) => {
-      const formattedKey = key
-        .replace(/([A-Z])/g, " $1")
-        .replace(/^./, (char) => char.toUpperCase());
-
-      lines.push(`${formattedKey}: ${String(value)}`);
-    });
-
-    const body = encodeURIComponent(lines.join("\n"));
-    const encodedSubject = encodeURIComponent(subject);
-
-    window.location.href = `mailto:${recipient}?subject=${encodedSubject}&body=${body}`;
-
+    // Email delivery will be connected when the staffing mailbox is ready.
+    // For now, keep visitors on the site and provide a polished confirmation.
     setTimeout(() => {
+      form.reset();
+      setStatus("success");
       setIsSubmitting(false);
-    }, 500);
+    }, 650);
   };
 
   return (
@@ -73,10 +61,10 @@ export default function MailtoForm({ title, recipient, subject, type }: Props) {
           </div>
 
           <div className="field">
-            <label htmlFor="phone">Phone Number *</label>
+            <label htmlFor="employerPhone">Phone Number *</label>
 
             <input
-              id="phone"
+              id="employerPhone"
               name="phone"
               type="tel"
               required
@@ -85,10 +73,10 @@ export default function MailtoForm({ title, recipient, subject, type }: Props) {
           </div>
 
           <div className="field">
-            <label htmlFor="email">Email *</label>
+            <label htmlFor="employerEmail">Email *</label>
 
             <input
-              id="email"
+              id="employerEmail"
               name="email"
               type="email"
               required
@@ -201,10 +189,10 @@ export default function MailtoForm({ title, recipient, subject, type }: Props) {
           </div>
 
           <div className="field">
-            <label htmlFor="phone">Phone Number *</label>
+            <label htmlFor="jobSeekerPhone">Phone Number *</label>
 
             <input
-              id="phone"
+              id="jobSeekerPhone"
               name="phone"
               type="tel"
               required
@@ -213,10 +201,10 @@ export default function MailtoForm({ title, recipient, subject, type }: Props) {
           </div>
 
           <div className="field">
-            <label htmlFor="email">Email *</label>
+            <label htmlFor="jobSeekerEmail">Email *</label>
 
             <input
-              id="email"
+              id="jobSeekerEmail"
               name="email"
               type="email"
               required
@@ -329,10 +317,17 @@ export default function MailtoForm({ title, recipient, subject, type }: Props) {
             />
 
             <span className="note">
-              Because this launch version sends the form through email, please
-              provide a shareable resume link.
+              Please provide a shareable link that our team can review.
             </span>
           </div>
+        </div>
+      )}
+
+      {status === "success" && (
+        <div className="form-message success" role="status" aria-live="polite">
+          {type === "employer"
+            ? "Thank you for your staffing request. Our team will review your needs and contact you soon."
+            : "Thank you for sharing your information. Our team will review it and contact you soon."}
         </div>
       )}
 
@@ -342,15 +337,15 @@ export default function MailtoForm({ title, recipient, subject, type }: Props) {
         disabled={isSubmitting}
       >
         {isSubmitting
-          ? "Opening Email..."
+          ? "Submitting..."
           : type === "employer"
             ? "Submit Staffing Request"
             : "Submit Job Seeker Information"}
       </button>
 
       <p className="note">
-        Submitting this form will open your email application with the
-        information prepared for <strong>{recipient}</strong>.
+        Your information will be reviewed by the Texian Staffing team. We will
+        contact you if we need any additional details.
       </p>
     </form>
   );
